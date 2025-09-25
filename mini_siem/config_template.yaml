@@ -1,0 +1,40 @@
+# Mini SIEM Configuration Template
+# Copy this to /etc/mini_siem/config.yaml and customize as needed
+
+# Detection thresholds
+failures_threshold: 5          # Number of failed attempts to trigger blocking
+window_seconds: 180            # Time window for counting attempts (3 minutes)
+block_seconds: 86400           # Block duration in seconds (24 hours)
+
+# Log file paths to monitor
+auth_logs:
+  - /var/log/auth.log          # Debian/Ubuntu/Kali
+  - /var/log/secure            # RHEL/CentOS/Fedora
+
+# Whitelist - IPs/networks that will never be blocked
+whitelist:
+  - 127.0.0.1/32              # Localhost
+  - ::1/128                   # IPv6 localhost
+  - 10.0.0.0/8                # Private network
+  - 172.16.0.0/12             # Private network
+  - 192.168.0.0/16            # Private network
+  # Add your trusted IPs here:
+  # - 203.0.113.0/24           # Example: Your office network
+
+# Firewall settings
+ipset_name: ssh_bruteforce_blacklist
+iptables_chain: INPUT
+
+# Notification settings (optional)
+# Set these as environment variables:
+# export SIEM_SMTP_SERVER="smtp.gmail.com"
+# export SIEM_SMTP_PORT="587"
+# export SIEM_SMTP_USER="your-email@gmail.com"
+# export SIEM_SMTP_PASSWORD="your-app-password"
+# export SIEM_FROM_EMAIL="siem@yourdomain.com"
+# export SIEM_NOTIFICATION_EMAILS="admin@yourdomain.com,security@yourdomain.com"
+# export SIEM_SLACK_WEBHOOK="https://hooks.slack.com/services/..."
+# export SIEM_SLACK_CHANNEL="#security"
+
+# GeoIP settings (optional)
+# export IPSTACK_API_KEY="your-ipstack-api-key"  # For more accurate geolocation
